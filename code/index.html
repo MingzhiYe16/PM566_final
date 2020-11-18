@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Mingzhi Ye" />
+
+
+<title>PM566 Final Project</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<script src="site_libs/htmlwidgets-1.5.1/htmlwidgets.js"></script>
+<script src="site_libs/plotly-binding-4.9.2.1/plotly.js"></script>
+<script src="site_libs/typedarray-0.1/typedarray.min.js"></script>
+<link href="site_libs/crosstalk-1.1.0.1/css/crosstalk.css" rel="stylesheet" />
+<script src="site_libs/crosstalk-1.1.0.1/js/crosstalk.min.js"></script>
+<link href="site_libs/plotly-htmlwidgets-css-1.52.2/plotly-htmlwidgets.css" rel="stylesheet" />
+<script src="site_libs/plotly-main-1.52.2/plotly-latest.min.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+<link rel="stylesheet" href="styles.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">PM566 final project</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/USCbiostats/PM566">
+    <span class="fa fa-github fa-lg"></span>
+     
+  </a>
+</li>
+<li>
+  <a href="https://elastic-khorana-70231e.netlify.app/">Report</a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">PM566 Final Project</h1>
+<h4 class="author">Mingzhi Ye</h4>
+
+</div>
+
+
+<p><br></p>
+<p>Welcome my PM566 assignment5 website. There are some interactive figures displaying how did the concentration of SO2 in CA change because of the Camp Fire in 2018.</p>
+<p><br></p>
+<style type="text/css">
+.code-r { /* Code block */
+  font-size: 15px;
+}
+
+.code-r-small { /* Code block */
+  font-size: 10px;
+}
+</style>
+<p><br></p>
+<p><br></p>
+<div id="average-concentration-of-so2-in-2018-and-previous-years" class="section level1">
+<h1>1. Average concentration of SO2 in 2018 and previous years</h1>
+<p>The figures below displays how did the concentration of SO2 in CA change from 2013 to 2018, the x axis represents the date from 11/8 to 11/25, when the Camp Fire lasted in 2018 The first figure displays the difference between the concentration in 2018 and the average concentration in previous years, and the second figure displays concentration in each year from 2013 to 2018</p>
+<div id="section" class="section level2 tabset">
+<h2></h2>
+<div id="concentration-in-2018-and-average-concentration-in-previous-years" class="section level3">
+<h3>Concentration in 2018 and average concentration in previous years</h3>
+<div id="htmlwidget-f3ef2c60507d25e760d3" style="width:700px;height:415.296px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-f3ef2c60507d25e760d3">{"x":{"visdat":{"571c5f3b4bf4":["function () ","plotlyVisDat"]},"cur_data":"571c5f3b4bf4","attrs":{"571c5f3b4bf4":{"x":{},"y":{},"mode":"lines","hoverinfo":"text","text":{},"color":{},"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"scatter"}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"title":"Average concentration of SO2 in 2018 and previous years","yaxis":{"domain":[0,1],"automargin":true,"title":"Average concentration of SO2"},"xaxis":{"domain":[0,1],"automargin":true,"title":"date","type":"category","categoryorder":"array","categoryarray":["11/08","11/09","11/10","11/11","11/12","11/13","11/14","11/15","11/16","11/17","11/18","11/19","11/20","11/21","11/22","11/23","11/24","11/25"]},"hovermode":"compare","showlegend":true},"source":"A","config":{"showSendToCloud":false},"data":[{"x":["11/08","11/09","11/10","11/11","11/12","11/13","11/14","11/15","11/16","11/17","11/18","11/19","11/20","11/21","11/22","11/23","11/24","11/25"],"y":[1.22758620689655,1.42333333333333,1.92666666666667,1.41333333333333,1.60333333333333,1.62333333333333,1.80344827586207,1.84285714285714,2.11379310344828,1.84666666666667,1.56428571428571,1.74333333333333,2.75714285714286,1.29655172413793,0.972413793103448,1.07586206896552,0.596551724137931,0.924137931034483],"mode":"lines","hoverinfo":["text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text"],"text":["date: 11/08<br>Concentration of SO2: 1.22758620689655<br>Year: 2018","date: 11/09<br>Concentration of SO2: 1.42333333333333<br>Year: 2018","date: 11/10<br>Concentration of SO2: 1.92666666666667<br>Year: 2018","date: 11/11<br>Concentration of SO2: 1.41333333333333<br>Year: 2018","date: 11/12<br>Concentration of SO2: 1.60333333333333<br>Year: 2018","date: 11/13<br>Concentration of SO2: 1.62333333333333<br>Year: 2018","date: 11/14<br>Concentration of SO2: 1.80344827586207<br>Year: 2018","date: 11/15<br>Concentration of SO2: 1.84285714285714<br>Year: 2018","date: 11/16<br>Concentration of SO2: 2.11379310344828<br>Year: 2018","date: 11/17<br>Concentration of SO2: 1.84666666666667<br>Year: 2018","date: 11/18<br>Concentration of SO2: 1.56428571428571<br>Year: 2018","date: 11/19<br>Concentration of SO2: 1.74333333333333<br>Year: 2018","date: 11/20<br>Concentration of SO2: 2.75714285714286<br>Year: 2018","date: 11/21<br>Concentration of SO2: 1.29655172413793<br>Year: 2018","date: 11/22<br>Concentration of SO2: 0.972413793103448<br>Year: 2018","date: 11/23<br>Concentration of SO2: 1.07586206896552<br>Year: 2018","date: 11/24<br>Concentration of SO2: 0.596551724137931<br>Year: 2018","date: 11/25<br>Concentration of SO2: 0.924137931034483<br>Year: 2018"],"type":"scatter","name":"2018","marker":{"color":"rgba(102,194,165,1)","line":{"color":"rgba(102,194,165,1)"}},"textfont":{"color":"rgba(102,194,165,1)"},"error_y":{"color":"rgba(102,194,165,1)"},"error_x":{"color":"rgba(102,194,165,1)"},"line":{"color":"rgba(102,194,165,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["11/08","11/09","11/10","11/11","11/12","11/13","11/14","11/15","11/16","11/17","11/18","11/19","11/20","11/21","11/22","11/23","11/24","11/25"],"y":[1.66241134751773,1.34647887323944,1.30141843971631,1.47724137931034,1.48098591549296,1.38472222222222,1.41971830985916,1.43469387755102,1,1.24275862068966,1.57013888888889,1.4822695035461,1.32394366197183,1.00496453900709,1.32152777777778,1.23378378378378,1.47619047619048,1.46530612244898],"mode":"lines","hoverinfo":["text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text"],"text":["date: 11/08<br>Concentration of SO2: 1.66241134751773<br>Year: Previous years","date: 11/09<br>Concentration of SO2: 1.34647887323944<br>Year: Previous years","date: 11/10<br>Concentration of SO2: 1.30141843971631<br>Year: Previous years","date: 11/11<br>Concentration of SO2: 1.47724137931034<br>Year: Previous years","date: 11/12<br>Concentration of SO2: 1.48098591549296<br>Year: Previous years","date: 11/13<br>Concentration of SO2: 1.38472222222222<br>Year: Previous years","date: 11/14<br>Concentration of SO2: 1.41971830985916<br>Year: Previous years","date: 11/15<br>Concentration of SO2: 1.43469387755102<br>Year: Previous years","date: 11/16<br>Concentration of SO2: 1<br>Year: Previous years","date: 11/17<br>Concentration of SO2: 1.24275862068966<br>Year: Previous years","date: 11/18<br>Concentration of SO2: 1.57013888888889<br>Year: Previous years","date: 11/19<br>Concentration of SO2: 1.4822695035461<br>Year: Previous years","date: 11/20<br>Concentration of SO2: 1.32394366197183<br>Year: Previous years","date: 11/21<br>Concentration of SO2: 1.00496453900709<br>Year: Previous years","date: 11/22<br>Concentration of SO2: 1.32152777777778<br>Year: Previous years","date: 11/23<br>Concentration of SO2: 1.23378378378378<br>Year: Previous years","date: 11/24<br>Concentration of SO2: 1.47619047619048<br>Year: Previous years","date: 11/25<br>Concentration of SO2: 1.46530612244898<br>Year: Previous years"],"type":"scatter","name":"Previous years","marker":{"color":"rgba(141,160,203,1)","line":{"color":"rgba(141,160,203,1)"}},"textfont":{"color":"rgba(141,160,203,1)"},"error_y":{"color":"rgba(141,160,203,1)"},"error_x":{"color":"rgba(141,160,203,1)"},"line":{"color":"rgba(141,160,203,1)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+<div id="concentration-in-each-year-from-2013-to-2018" class="section level3">
+<h3>Concentration in each year from 2013 to 2018</h3>
+<div id="htmlwidget-528b8269e298a5a755ba" style="width:700px;height:415.296px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-528b8269e298a5a755ba">{"x":{"data":[{"x":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18],"y":[2.21851851851852,1.525,1.44285714285714,1.95,2.26785714285714,2.025,1.96428571428571,1.97,0.820689655172414,1.01724137931034,1.20333333333333,1.396,0.853846153846154,0.843333333333333,1.17586206896552,1.21290322580645,1.40322580645161,1.74193548387097],"text":["year: 2013<br />size: 10<br />date: 11/08<br />concentration: 2.2185185","year: 2013<br />size: 10<br />date: 11/09<br />concentration: 1.5250000","year: 2013<br />size: 10<br />date: 11/10<br />concentration: 1.4428571","year: 2013<br />size: 10<br />date: 11/11<br />concentration: 1.9500000","year: 2013<br />size: 10<br />date: 11/12<br />concentration: 2.2678571","year: 2013<br />size: 10<br />date: 11/13<br />concentration: 2.0250000","year: 2013<br />size: 10<br />date: 11/14<br />concentration: 1.9642857","year: 2013<br />size: 10<br />date: 11/15<br />concentration: 1.9700000","year: 2013<br />size: 10<br />date: 11/16<br />concentration: 0.8206897","year: 2013<br />size: 10<br />date: 11/17<br />concentration: 1.0172414","year: 2013<br />size: 10<br />date: 11/18<br />concentration: 1.2033333","year: 2013<br />size: 10<br />date: 11/19<br />concentration: 1.3960000","year: 2013<br />size: 10<br />date: 11/20<br />concentration: 0.8538462","year: 2013<br />size: 10<br />date: 11/21<br />concentration: 0.8433333","year: 2013<br />size: 10<br />date: 11/22<br />concentration: 1.1758621","year: 2013<br />size: 10<br />date: 11/23<br />concentration: 1.2129032","year: 2013<br />size: 10<br />date: 11/24<br />concentration: 1.4032258","year: 2013<br />size: 10<br />date: 11/25<br />concentration: 1.7419355"],"frame":"2013","type":"scatter","mode":"markers","marker":{"autocolorscale":false,"color":"rgba(0,0,0,1)","opacity":1,"size":17.1421753925017,"symbol":"circle","line":{"width":1.88976377952756,"color":"rgba(0,0,0,1)"}},"hoveron":"points","showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","visible":true}],"layout":{"margin":{"t":45.3645816141277,"r":7.30593607305936,"b":41.7846729383287,"l":43.1050228310502},"plot_bgcolor":"rgba(235,235,235,1)","paper_bgcolor":"rgba(255,255,255,1)","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187},"title":{"text":"Concentration of SO2 in CA from 2013 to 2018","font":{"color":"rgba(0,0,0,1)","family":"","size":17.5342465753425},"x":0,"xref":"paper"},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[0.4,18.6],"tickmode":"array","ticktext":["11/08","11/09","11/10","11/11","11/12","11/13","11/14","11/15","11/16","11/17","11/18","11/19","11/20","11/21","11/22","11/23","11/24","11/25"],"tickvals":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18],"categoryorder":"array","categoryarray":["11/08","11/09","11/10","11/11","11/12","11/13","11/14","11/15","11/16","11/17","11/18","11/19","11/20","11/21","11/22","11/23","11/24","11/25"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.65296803652968,"tickwidth":0.66417600664176,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(255,255,255,1)","gridwidth":0.66417600664176,"zeroline":false,"anchor":"y","title":{"text":"Date","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[0.488522167487685,2.8651724137931],"tickmode":"array","ticktext":["0.5","1.0","1.5","2.0","2.5"],"tickvals":[0.5,1,1.5,2,2.5],"categoryorder":"array","categoryarray":["0.5","1.0","1.5","2.0","2.5"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.65296803652968,"tickwidth":0.66417600664176,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(255,255,255,1)","gridwidth":0.66417600664176,"zeroline":false,"anchor":"x","title":{"text":"Concentration of SO2","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}},"hoverformat":".2f"},"shapes":[{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0,"x1":1,"y0":0,"y1":1}],"showlegend":false,"legend":{"bgcolor":"rgba(255,255,255,1)","bordercolor":"transparent","borderwidth":1.88976377952756,"font":{"color":"rgba(0,0,0,1)","family":"","size":11.689497716895}},"hovermode":"closest","barmode":"relative","sliders":[{"currentvalue":{"prefix":"~year: ","xanchor":"right","font":{"size":16,"color":"rgba(204,204,204,1)"}},"steps":[{"method":"animate","args":[["2013"],{"transition":{"duration":500,"easing":"linear"},"frame":{"duration":500,"redraw":false},"mode":"immediate"}],"label":"2013","value":"2013"},{"method":"animate","args":[["2014"],{"transition":{"duration":500,"easing":"linear"},"frame":{"duration":500,"redraw":false},"mode":"immediate"}],"label":"2014","value":"2014"},{"method":"animate","args":[["2015"],{"transition":{"duration":500,"easing":"linear"},"frame":{"duration":500,"redraw":false},"mode":"immediate"}],"label":"2015","value":"2015"},{"method":"animate","args":[["2016"],{"transition":{"duration":500,"easing":"linear"},"frame":{"duration":500,"redraw":false},"mode":"immediate"}],"label":"2016","value":"2016"},{"method":"animate","args":[["2017"],{"transition":{"duration":500,"easing":"linear"},"frame":{"duration":500,"redraw":false},"mode":"immediate"}],"label":"2017","value":"2017"},{"method":"animate","args":[["2018"],{"transition":{"duration":500,"easing":"linear"},"frame":{"duration":500,"redraw":false},"mode":"immediate"}],"label":"2018","value":"2018"}],"visible":true,"pad":{"t":40}}],"updatemenus":[{"type":"buttons","direction":"right","showactive":false,"y":0,"x":0,"yanchor":"top","xanchor":"right","pad":{"t":60,"r":5},"buttons":[{"label":"Play","method":"animate","args":[null,{"fromcurrent":true,"mode":"immediate","transition":{"duration":500,"easing":"linear"},"frame":{"duration":500,"redraw":false}}]}]}]},"config":{"doubleClick":"reset","showSendToCloud":false},"source":"A","attrs":{"571c70867723":{"frame":{},"size":{},"x":{},"y":{},"type":"scatter"}},"cur_data":"571c70867723","visdat":{"571c70867723":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"frames":[{"name":"2013","data":[{"x":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18],"y":[2.21851851851852,1.525,1.44285714285714,1.95,2.26785714285714,2.025,1.96428571428571,1.97,0.820689655172414,1.01724137931034,1.20333333333333,1.396,0.853846153846154,0.843333333333333,1.17586206896552,1.21290322580645,1.40322580645161,1.74193548387097],"text":["year: 2013<br />size: 10<br />date: 11/08<br />concentration: 2.2185185","year: 2013<br />size: 10<br />date: 11/09<br />concentration: 1.5250000","year: 2013<br />size: 10<br />date: 11/10<br />concentration: 1.4428571","year: 2013<br />size: 10<br />date: 11/11<br />concentration: 1.9500000","year: 2013<br />size: 10<br />date: 11/12<br />concentration: 2.2678571","year: 2013<br />size: 10<br />date: 11/13<br />concentration: 2.0250000","year: 2013<br />size: 10<br />date: 11/14<br />concentration: 1.9642857","year: 2013<br />size: 10<br />date: 11/15<br />concentration: 1.9700000","year: 2013<br />size: 10<br />date: 11/16<br />concentration: 0.8206897","year: 2013<br />size: 10<br />date: 11/17<br />concentration: 1.0172414","year: 2013<br />size: 10<br />date: 11/18<br />concentration: 1.2033333","year: 2013<br />size: 10<br />date: 11/19<br />concentration: 1.3960000","year: 2013<br />size: 10<br />date: 11/20<br />concentration: 0.8538462","year: 2013<br />size: 10<br />date: 11/21<br />concentration: 0.8433333","year: 2013<br />size: 10<br />date: 11/22<br />concentration: 1.1758621","year: 2013<br />size: 10<br />date: 11/23<br />concentration: 1.2129032","year: 2013<br />size: 10<br />date: 11/24<br />concentration: 1.4032258","year: 2013<br />size: 10<br />date: 11/25<br />concentration: 1.7419355"],"frame":"2013","type":"scatter","mode":"markers","marker":{"autocolorscale":false,"color":"rgba(0,0,0,1)","opacity":1,"size":17.1421753925017,"symbol":"circle","line":{"width":1.88976377952756,"color":"rgba(0,0,0,1)"}},"hoveron":"points","showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","visible":true}],"traces":[0]},{"name":"2014","data":[{"x":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18],"y":[1.85357142857143,2.16785714285714,1.32142857142857,0.778571428571429,1.1037037037037,0.866666666666667,0.707142857142857,1.14285714285714,1.3,1.85714285714286,2.584,1.21923076923077,1.26296296296296,1.21111111111111,1.10357142857143,1.11071428571429,2.06428571428571,1.58888888888889],"text":["year: 2014<br />size: 10<br />date: 11/08<br />concentration: 1.8535714","year: 2014<br />size: 10<br />date: 11/09<br />concentration: 2.1678571","year: 2014<br />size: 10<br />date: 11/10<br />concentration: 1.3214286","year: 2014<br />size: 10<br />date: 11/11<br />concentration: 0.7785714","year: 2014<br />size: 10<br />date: 11/12<br />concentration: 1.1037037","year: 2014<br />size: 10<br />date: 11/13<br />concentration: 0.8666667","year: 2014<br />size: 10<br />date: 11/14<br />concentration: 0.7071429","year: 2014<br />size: 10<br />date: 11/15<br />concentration: 1.1428571","year: 2014<br />size: 10<br />date: 11/16<br />concentration: 1.3000000","year: 2014<br />size: 10<br />date: 11/17<br />concentration: 1.8571429","year: 2014<br />size: 10<br />date: 11/18<br />concentration: 2.5840000","year: 2014<br />size: 10<br />date: 11/19<br />concentration: 1.2192308","year: 2014<br />size: 10<br />date: 11/20<br />concentration: 1.2629630","year: 2014<br />size: 10<br />date: 11/21<br />concentration: 1.2111111","year: 2014<br />size: 10<br />date: 11/22<br />concentration: 1.1035714","year: 2014<br />size: 10<br />date: 11/23<br />concentration: 1.1107143","year: 2014<br />size: 10<br />date: 11/24<br />concentration: 2.0642857","year: 2014<br />size: 10<br />date: 11/25<br />concentration: 1.5888889"],"frame":"2014","type":"scatter","mode":"markers","marker":{"autocolorscale":false,"color":"rgba(0,0,0,1)","opacity":1,"size":17.1421753925017,"symbol":"circle","line":{"width":1.88976377952756,"color":"rgba(0,0,0,1)"}},"hoveron":"points","showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","visible":true}],"traces":[0]},{"name":"2015","data":[{"x":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18],"y":[1.21935483870968,0.986206896551724,1.08965517241379,1.37333333333333,1.36551724137931,1.6741935483871,1.76666666666667,1.29,0.738709677419355,1.32903225806452,1.6741935483871,1.86451612903226,1.91612903225806,1.05666666666667,1.39677419354839,1.63870967741935,1.2,0.893333333333333],"text":["year: 2015<br />size: 10<br />date: 11/08<br />concentration: 1.2193548","year: 2015<br />size: 10<br />date: 11/09<br />concentration: 0.9862069","year: 2015<br />size: 10<br />date: 11/10<br />concentration: 1.0896552","year: 2015<br />size: 10<br />date: 11/11<br />concentration: 1.3733333","year: 2015<br />size: 10<br />date: 11/12<br />concentration: 1.3655172","year: 2015<br />size: 10<br />date: 11/13<br />concentration: 1.6741935","year: 2015<br />size: 10<br />date: 11/14<br />concentration: 1.7666667","year: 2015<br />size: 10<br />date: 11/15<br />concentration: 1.2900000","year: 2015<br />size: 10<br />date: 11/16<br />concentration: 0.7387097","year: 2015<br />size: 10<br />date: 11/17<br />concentration: 1.3290323","year: 2015<br />size: 10<br />date: 11/18<br />concentration: 1.6741935","year: 2015<br />size: 10<br />date: 11/19<br />concentration: 1.8645161","year: 2015<br />size: 10<br />date: 11/20<br />concentration: 1.9161290","year: 2015<br />size: 10<br />date: 11/21<br />concentration: 1.0566667","year: 2015<br />size: 10<br />date: 11/22<br />concentration: 1.3967742","year: 2015<br />size: 10<br />date: 11/23<br />concentration: 1.6387097","year: 2015<br />size: 10<br />date: 11/24<br />concentration: 1.2000000","year: 2015<br />size: 10<br />date: 11/25<br />concentration: 0.8933333"],"frame":"2015","type":"scatter","mode":"markers","marker":{"autocolorscale":false,"color":"rgba(0,0,0,1)","opacity":1,"size":17.1421753925017,"symbol":"circle","line":{"width":1.88976377952756,"color":"rgba(0,0,0,1)"}},"hoveron":"points","showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","visible":true}],"traces":[0]},{"name":"2016","data":[{"x":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18],"y":[1.62222222222222,1.23571428571429,1.59642857142857,2.11,1.13793103448276,1.41724137931034,1.62857142857143,1.40666666666667,1.08928571428571,1.19655172413793,1.4551724137931,1.58666666666667,0.77,0.648275862068965,0.967857142857143,0.879310344827586,0.858620689655172,1.54666666666667],"text":["year: 2016<br />size: 10<br />date: 11/08<br />concentration: 1.6222222","year: 2016<br />size: 10<br />date: 11/09<br />concentration: 1.2357143","year: 2016<br />size: 10<br />date: 11/10<br />concentration: 1.5964286","year: 2016<br />size: 10<br />date: 11/11<br />concentration: 2.1100000","year: 2016<br />size: 10<br />date: 11/12<br />concentration: 1.1379310","year: 2016<br />size: 10<br />date: 11/13<br />concentration: 1.4172414","year: 2016<br />size: 10<br />date: 11/14<br />concentration: 1.6285714","year: 2016<br />size: 10<br />date: 11/15<br />concentration: 1.4066667","year: 2016<br />size: 10<br />date: 11/16<br />concentration: 1.0892857","year: 2016<br />size: 10<br />date: 11/17<br />concentration: 1.1965517","year: 2016<br />size: 10<br />date: 11/18<br />concentration: 1.4551724","year: 2016<br />size: 10<br />date: 11/19<br />concentration: 1.5866667","year: 2016<br />size: 10<br />date: 11/20<br />concentration: 0.7700000","year: 2016<br />size: 10<br />date: 11/21<br />concentration: 0.6482759","year: 2016<br />size: 10<br />date: 11/22<br />concentration: 0.9678571","year: 2016<br />size: 10<br />date: 11/23<br />concentration: 0.8793103","year: 2016<br />size: 10<br />date: 11/24<br />concentration: 0.8586207","year: 2016<br />size: 10<br />date: 11/25<br />concentration: 1.5466667"],"frame":"2016","type":"scatter","mode":"markers","marker":{"autocolorscale":false,"color":"rgba(0,0,0,1)","opacity":1,"size":17.1421753925017,"symbol":"circle","line":{"width":1.88976377952756,"color":"rgba(0,0,0,1)"}},"hoveron":"points","showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","visible":true}],"traces":[0]},{"name":"2017","data":[{"x":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18],"y":[1.46428571428571,0.848275862068966,1.06428571428571,1.14827586206897,1.53103448275862,0.906896551724138,1.00714285714286,1.34137931034483,1.09230769230769,0.814285714285714,1.07931034482759,1.27586206896552,1.75714285714286,1.328,1.96071428571429,1.29655172413793,1.88965517241379,1.56206896551724],"text":["year: 2017<br />size: 10<br />date: 11/08<br />concentration: 1.4642857","year: 2017<br />size: 10<br />date: 11/09<br />concentration: 0.8482759","year: 2017<br />size: 10<br />date: 11/10<br />concentration: 1.0642857","year: 2017<br />size: 10<br />date: 11/11<br />concentration: 1.1482759","year: 2017<br />size: 10<br />date: 11/12<br />concentration: 1.5310345","year: 2017<br />size: 10<br />date: 11/13<br />concentration: 0.9068966","year: 2017<br />size: 10<br />date: 11/14<br />concentration: 1.0071429","year: 2017<br />size: 10<br />date: 11/15<br />concentration: 1.3413793","year: 2017<br />size: 10<br />date: 11/16<br />concentration: 1.0923077","year: 2017<br />size: 10<br />date: 11/17<br />concentration: 0.8142857","year: 2017<br />size: 10<br />date: 11/18<br />concentration: 1.0793103","year: 2017<br />size: 10<br />date: 11/19<br />concentration: 1.2758621","year: 2017<br />size: 10<br />date: 11/20<br />concentration: 1.7571429","year: 2017<br />size: 10<br />date: 11/21<br />concentration: 1.3280000","year: 2017<br />size: 10<br />date: 11/22<br />concentration: 1.9607143","year: 2017<br />size: 10<br />date: 11/23<br />concentration: 1.2965517","year: 2017<br />size: 10<br />date: 11/24<br />concentration: 1.8896552","year: 2017<br />size: 10<br />date: 11/25<br />concentration: 1.5620690"],"frame":"2017","type":"scatter","mode":"markers","marker":{"autocolorscale":false,"color":"rgba(0,0,0,1)","opacity":1,"size":17.1421753925017,"symbol":"circle","line":{"width":1.88976377952756,"color":"rgba(0,0,0,1)"}},"hoveron":"points","showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","visible":true}],"traces":[0]},{"name":"2018","data":[{"x":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18],"y":[1.22758620689655,1.42333333333333,1.92666666666667,1.41333333333333,1.60333333333333,1.62333333333333,1.80344827586207,1.84285714285714,2.11379310344828,1.84666666666667,1.56428571428571,1.74333333333333,2.75714285714286,1.29655172413793,0.972413793103448,1.07586206896552,0.596551724137931,0.924137931034483],"text":["year: 2018<br />size: 10<br />date: 11/08<br />concentration: 1.2275862","year: 2018<br />size: 10<br />date: 11/09<br />concentration: 1.4233333","year: 2018<br />size: 10<br />date: 11/10<br />concentration: 1.9266667","year: 2018<br />size: 10<br />date: 11/11<br />concentration: 1.4133333","year: 2018<br />size: 10<br />date: 11/12<br />concentration: 1.6033333","year: 2018<br />size: 10<br />date: 11/13<br />concentration: 1.6233333","year: 2018<br />size: 10<br />date: 11/14<br />concentration: 1.8034483","year: 2018<br />size: 10<br />date: 11/15<br />concentration: 1.8428571","year: 2018<br />size: 10<br />date: 11/16<br />concentration: 2.1137931","year: 2018<br />size: 10<br />date: 11/17<br />concentration: 1.8466667","year: 2018<br />size: 10<br />date: 11/18<br />concentration: 1.5642857","year: 2018<br />size: 10<br />date: 11/19<br />concentration: 1.7433333","year: 2018<br />size: 10<br />date: 11/20<br />concentration: 2.7571429","year: 2018<br />size: 10<br />date: 11/21<br />concentration: 1.2965517","year: 2018<br />size: 10<br />date: 11/22<br />concentration: 0.9724138","year: 2018<br />size: 10<br />date: 11/23<br />concentration: 1.0758621","year: 2018<br />size: 10<br />date: 11/24<br />concentration: 0.5965517","year: 2018<br />size: 10<br />date: 11/25<br />concentration: 0.9241379"],"frame":"2018","type":"scatter","mode":"markers","marker":{"autocolorscale":false,"color":"rgba(0,0,0,1)","opacity":1,"size":17.1421753925017,"symbol":"circle","line":{"width":1.88976377952756,"color":"rgba(0,0,0,1)"}},"hoveron":"points","showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","visible":true}],"traces":[0]}],"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+<div id="section-1" class="section level2 unnumbered">
+<h2></h2>
+</div>
+</div>
+<div id="concentration-of-so2-from-2013-to-2018-in-each-county" class="section level1">
+<h1>2. Concentration of SO2 from 2013 to 2018 in each county</h1>
+<p>The heatmap below displays how did the concentration of SO2 in different counties change from 2013 to 2018</p>
+<div id="htmlwidget-6dd5a93ff08e2ad1bcfe" style="width:700px;height:415.296px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-6dd5a93ff08e2ad1bcfe">{"x":{"visdat":{"571c38c36f99":["function () ","plotlyVisDat"]},"cur_data":"571c38c36f99","attrs":{"571c38c36f99":{"x":["Alameda","Contra Costa","Fresno","Humboldt","Imperial","Inyo","Los Angeles","Orange","Riverside","Sacramento","San Bernardino","San Diego","San Luis Obispo","Santa Barbara","Santa Clara","Solano"],"y":["2013","2014","2015","2016","2017","2018"],"z":{},"showscale":true,"hoverinfo":"text","text":[[" County:  Alameda<br> Year:  2013<br> Concentration of SO2:  2.071"," County:  Contra Costa<br> Year:  2013<br> Concentration of SO2:  2.562"," County:  Fresno<br> Year:  2013<br> Concentration of SO2:  0.7"," County:  Humboldt<br> Year:  2013<br> Concentration of SO2:  0.118"," County:  Imperial<br> Year:  2013<br> Concentration of SO2:  2.172"," County:  Inyo<br> Year:  2013<br> Concentration of SO2:  NA"," County:  Los Angeles<br> Year:  2013<br> Concentration of SO2:  1.711"," County:  Orange<br> Year:  2013<br> Concentration of SO2:  1.078"," County:  Riverside<br> Year:  2013<br> Concentration of SO2:  1.111"," County:  Sacramento<br> Year:  2013<br> Concentration of SO2:  1.354"," County:  San Bernardino<br> Year:  2013<br> Concentration of SO2:  1.291"," County:  San Diego<br> Year:  2013<br> Concentration of SO2:  0.272"," County:  San Luis Obispo<br> Year:  2013<br> Concentration of SO2:  0.222"," County:  Santa Barbara<br> Year:  2013<br> Concentration of SO2:  1.223"," County:  Santa Clara<br> Year:  2013<br> Concentration of SO2:  0.81"," County:  Solano<br> Year:  2013<br> Concentration of SO2:  1.612"],[" County:  Alameda<br> Year:  2014<br> Concentration of SO2:  2.276"," County:  Contra Costa<br> Year:  2014<br> Concentration of SO2:  2.999"," County:  Fresno<br> Year:  2014<br> Concentration of SO2:  0.519"," County:  Humboldt<br> Year:  2014<br> Concentration of SO2:  1.044"," County:  Imperial<br> Year:  2014<br> Concentration of SO2:  1.867"," County:  Inyo<br> Year:  2014<br> Concentration of SO2:  NA"," County:  Los Angeles<br> Year:  2014<br> Concentration of SO2:  1.147"," County:  Orange<br> Year:  2014<br> Concentration of SO2:  1.078"," County:  Riverside<br> Year:  2014<br> Concentration of SO2:  0.922"," County:  Sacramento<br> Year:  2014<br> Concentration of SO2:  1.178"," County:  San Bernardino<br> Year:  2014<br> Concentration of SO2:  1.277"," County:  San Diego<br> Year:  2014<br> Concentration of SO2:  0.294"," County:  San Luis Obispo<br> Year:  2014<br> Concentration of SO2:  0.556"," County:  Santa Barbara<br> Year:  2014<br> Concentration of SO2:  0.389"," County:  Santa Clara<br> Year:  2014<br> Concentration of SO2:  0.712"," County:  Solano<br> Year:  2014<br> Concentration of SO2:  2.253"],[" County:  Alameda<br> Year:  2015<br> Concentration of SO2:  1.775"," County:  Contra Costa<br> Year:  2015<br> Concentration of SO2:  2.03"," County:  Fresno<br> Year:  2015<br> Concentration of SO2:  0.417"," County:  Humboldt<br> Year:  2015<br> Concentration of SO2:  0.497"," County:  Imperial<br> Year:  2015<br> Concentration of SO2:  2.644"," County:  Inyo<br> Year:  2015<br> Concentration of SO2:  0"," County:  Los Angeles<br> Year:  2015<br> Concentration of SO2:  2.393"," County:  Orange<br> Year:  2015<br> Concentration of SO2:  0.872"," County:  Riverside<br> Year:  2015<br> Concentration of SO2:  0.872"," County:  Sacramento<br> Year:  2015<br> Concentration of SO2:  2.772"," County:  San Bernardino<br> Year:  2015<br> Concentration of SO2:  1.596"," County:  San Diego<br> Year:  2015<br> Concentration of SO2:  0.421"," County:  San Luis Obispo<br> Year:  2015<br> Concentration of SO2:  0.111"," County:  Santa Barbara<br> Year:  2015<br> Concentration of SO2:  0.673"," County:  Santa Clara<br> Year:  2015<br> Concentration of SO2:  0.861"," County:  Solano<br> Year:  2015<br> Concentration of SO2:  1.95"],[" County:  Alameda<br> Year:  2016<br> Concentration of SO2:  2.106"," County:  Contra Costa<br> Year:  2016<br> Concentration of SO2:  2.375"," County:  Fresno<br> Year:  2016<br> Concentration of SO2:  0.539"," County:  Humboldt<br> Year:  2016<br> Concentration of SO2:  0.158"," County:  Imperial<br> Year:  2016<br> Concentration of SO2:  1.489"," County:  Inyo<br> Year:  2016<br> Concentration of SO2:  0.022"," County:  Los Angeles<br> Year:  2016<br> Concentration of SO2:  2.75"," County:  Orange<br> Year:  2016<br> Concentration of SO2:  0.95"," County:  Riverside<br> Year:  2016<br> Concentration of SO2:  0.644"," County:  Sacramento<br> Year:  2016<br> Concentration of SO2:  2.854"," County:  San Bernardino<br> Year:  2016<br> Concentration of SO2:  1.502"," County:  San Diego<br> Year:  2016<br> Concentration of SO2:  0.28"," County:  San Luis Obispo<br> Year:  2016<br> Concentration of SO2:  0"," County:  Santa Barbara<br> Year:  2016<br> Concentration of SO2:  0.037"," County:  Santa Clara<br> Year:  2016<br> Concentration of SO2:  0.624"," County:  Solano<br> Year:  2016<br> Concentration of SO2:  1.665"],[" County:  Alameda<br> Year:  2017<br> Concentration of SO2:  1.594"," County:  Contra Costa<br> Year:  2017<br> Concentration of SO2:  2.287"," County:  Fresno<br> Year:  2017<br> Concentration of SO2:  0.728"," County:  Humboldt<br> Year:  2017<br> Concentration of SO2:  0.13"," County:  Imperial<br> Year:  2017<br> Concentration of SO2:  1.522"," County:  Inyo<br> Year:  2017<br> Concentration of SO2:  NA"," County:  Los Angeles<br> Year:  2017<br> Concentration of SO2:  2.822"," County:  Orange<br> Year:  2017<br> Concentration of SO2:  NA"," County:  Riverside<br> Year:  2017<br> Concentration of SO2:  1"," County:  Sacramento<br> Year:  2017<br> Concentration of SO2:  0.338"," County:  San Bernardino<br> Year:  2017<br> Concentration of SO2:  1.621"," County:  San Diego<br> Year:  2017<br> Concentration of SO2:  0.389"," County:  San Luis Obispo<br> Year:  2017<br> Concentration of SO2:  0"," County:  Santa Barbara<br> Year:  2017<br> Concentration of SO2:  0.481"," County:  Santa Clara<br> Year:  2017<br> Concentration of SO2:  0.65"," County:  Solano<br> Year:  2017<br> Concentration of SO2:  1.012"],[" County:  Alameda<br> Year:  2018<br> Concentration of SO2:  3.383"," County:  Contra Costa<br> Year:  2018<br> Concentration of SO2:  3.348"," County:  Fresno<br> Year:  2018<br> Concentration of SO2:  0.656"," County:  Humboldt<br> Year:  2018<br> Concentration of SO2:  0.3"," County:  Imperial<br> Year:  2018<br> Concentration of SO2:  1.394"," County:  Inyo<br> Year:  2018<br> Concentration of SO2:  0.1"," County:  Los Angeles<br> Year:  2018<br> Concentration of SO2:  1.963"," County:  Orange<br> Year:  2018<br> Concentration of SO2:  NA"," County:  Riverside<br> Year:  2018<br> Concentration of SO2:  1.054"," County:  Sacramento<br> Year:  2018<br> Concentration of SO2:  1.135"," County:  San Bernardino<br> Year:  2018<br> Concentration of SO2:  1.317"," County:  San Diego<br> Year:  2018<br> Concentration of SO2:  0.276"," County:  San Luis Obispo<br> Year:  2018<br> Concentration of SO2:  0.278"," County:  Santa Barbara<br> Year:  2018<br> Concentration of SO2:  0.607"," County:  Santa Clara<br> Year:  2018<br> Concentration of SO2:  1.4"," County:  Solano<br> Year:  2018<br> Concentration of SO2:  2.022"]],"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"heatmap"}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"title":"The concentration of SO2 in different counties in CA from 2013 to 2018","yaxis":{"domain":[0,1],"automargin":true,"title":"Year"},"xaxis":{"domain":[0,1],"automargin":true,"title":"County"},"hovermode":"compare","scene":{"zaxis":{"title":"data"}},"showlegend":false,"legend":{"yanchor":"top","y":0.5}},"source":"A","config":{"showSendToCloud":false},"data":[{"colorbar":{"title":"data","ticklen":2,"len":0.5,"lenmode":"fraction","y":1,"yanchor":"top"},"colorscale":[["0","rgba(68,1,84,1)"],["0.0416666666666667","rgba(70,19,97,1)"],["0.0833333333333333","rgba(72,32,111,1)"],["0.125","rgba(71,45,122,1)"],["0.166666666666667","rgba(68,58,128,1)"],["0.208333333333333","rgba(64,70,135,1)"],["0.25","rgba(60,82,138,1)"],["0.291666666666667","rgba(56,93,140,1)"],["0.333333333333333","rgba(49,104,142,1)"],["0.375","rgba(46,114,142,1)"],["0.416666666666667","rgba(42,123,142,1)"],["0.458333333333333","rgba(38,133,141,1)"],["0.5","rgba(37,144,140,1)"],["0.541666666666667","rgba(33,154,138,1)"],["0.583333333333333","rgba(39,164,133,1)"],["0.625","rgba(47,174,127,1)"],["0.666666666666667","rgba(53,183,121,1)"],["0.708333333333333","rgba(79,191,110,1)"],["0.75","rgba(98,199,98,1)"],["0.791666666666667","rgba(119,207,85,1)"],["0.833333333333333","rgba(147,214,70,1)"],["0.875","rgba(172,220,52,1)"],["0.916666666666667","rgba(199,225,42,1)"],["0.958333333333333","rgba(226,228,40,1)"],["1","rgba(253,231,37,1)"]],"showscale":true,"x":["Alameda","Contra Costa","Fresno","Humboldt","Imperial","Inyo","Los Angeles","Orange","Riverside","Sacramento","San Bernardino","San Diego","San Luis Obispo","Santa Barbara","Santa Clara","Solano"],"y":["2013","2014","2015","2016","2017","2018"],"z":[[2.07058823529412,2.56176470588235,0.7,0.118181818181818,2.17222222222222,null,1.71142857142857,1.07777777777778,1.11111111111111,1.35384615384615,1.29074074074074,0.272222222222222,0.222222222222222,1.22330097087379,0.81,1.61176470588235],[2.27647058823529,2.99906542056075,0.51875,1.04444444444444,1.86666666666667,null,1.14705882352941,1.07777777777778,0.922222222222222,1.17777777777778,1.27692307692308,0.294444444444444,0.555555555555556,0.388888888888889,0.711764705882353,2.25294117647059],[1.775,2.02962962962963,0.416666666666667,0.496875,2.64444444444444,0,2.39259259259259,0.872222222222222,0.872222222222222,2.77222222222222,1.59622641509434,0.421428571428571,0.111111111111111,0.672897196261682,0.861111111111111,1.95],[2.10625,2.37476635514019,0.538888888888889,0.158333333333333,1.48888888888889,0.0222222222222222,2.75,0.95,0.644444444444444,2.85384615384615,1.50185185185185,0.28,0,0.0373831775700935,0.623529411764706,1.66470588235294],[1.59411764705882,2.28679245283019,0.727777777777778,0.13030303030303,1.52222222222222,null,2.82222222222222,null,1,0.3375,1.62115384615385,0.388888888888889,0,0.481481481481481,0.65,1.01176470588235],[3.38333333333333,3.34766355140187,0.655555555555556,0.3,1.39444444444444,0.1,1.96296296296296,null,1.05384615384615,1.13529411764706,1.31698113207547,0.276470588235294,0.277777777777778,0.607476635514019,1.4,2.02222222222222]],"hoverinfo":"text","text":[[" County:  Alameda<br> Year:  2013<br> Concentration of SO2:  2.071"," County:  Contra Costa<br> Year:  2013<br> Concentration of SO2:  2.562"," County:  Fresno<br> Year:  2013<br> Concentration of SO2:  0.7"," County:  Humboldt<br> Year:  2013<br> Concentration of SO2:  0.118"," County:  Imperial<br> Year:  2013<br> Concentration of SO2:  2.172"," County:  Inyo<br> Year:  2013<br> Concentration of SO2:  NA"," County:  Los Angeles<br> Year:  2013<br> Concentration of SO2:  1.711"," County:  Orange<br> Year:  2013<br> Concentration of SO2:  1.078"," County:  Riverside<br> Year:  2013<br> Concentration of SO2:  1.111"," County:  Sacramento<br> Year:  2013<br> Concentration of SO2:  1.354"," County:  San Bernardino<br> Year:  2013<br> Concentration of SO2:  1.291"," County:  San Diego<br> Year:  2013<br> Concentration of SO2:  0.272"," County:  San Luis Obispo<br> Year:  2013<br> Concentration of SO2:  0.222"," County:  Santa Barbara<br> Year:  2013<br> Concentration of SO2:  1.223"," County:  Santa Clara<br> Year:  2013<br> Concentration of SO2:  0.81"," County:  Solano<br> Year:  2013<br> Concentration of SO2:  1.612"],[" County:  Alameda<br> Year:  2014<br> Concentration of SO2:  2.276"," County:  Contra Costa<br> Year:  2014<br> Concentration of SO2:  2.999"," County:  Fresno<br> Year:  2014<br> Concentration of SO2:  0.519"," County:  Humboldt<br> Year:  2014<br> Concentration of SO2:  1.044"," County:  Imperial<br> Year:  2014<br> Concentration of SO2:  1.867"," County:  Inyo<br> Year:  2014<br> Concentration of SO2:  NA"," County:  Los Angeles<br> Year:  2014<br> Concentration of SO2:  1.147"," County:  Orange<br> Year:  2014<br> Concentration of SO2:  1.078"," County:  Riverside<br> Year:  2014<br> Concentration of SO2:  0.922"," County:  Sacramento<br> Year:  2014<br> Concentration of SO2:  1.178"," County:  San Bernardino<br> Year:  2014<br> Concentration of SO2:  1.277"," County:  San Diego<br> Year:  2014<br> Concentration of SO2:  0.294"," County:  San Luis Obispo<br> Year:  2014<br> Concentration of SO2:  0.556"," County:  Santa Barbara<br> Year:  2014<br> Concentration of SO2:  0.389"," County:  Santa Clara<br> Year:  2014<br> Concentration of SO2:  0.712"," County:  Solano<br> Year:  2014<br> Concentration of SO2:  2.253"],[" County:  Alameda<br> Year:  2015<br> Concentration of SO2:  1.775"," County:  Contra Costa<br> Year:  2015<br> Concentration of SO2:  2.03"," County:  Fresno<br> Year:  2015<br> Concentration of SO2:  0.417"," County:  Humboldt<br> Year:  2015<br> Concentration of SO2:  0.497"," County:  Imperial<br> Year:  2015<br> Concentration of SO2:  2.644"," County:  Inyo<br> Year:  2015<br> Concentration of SO2:  0"," County:  Los Angeles<br> Year:  2015<br> Concentration of SO2:  2.393"," County:  Orange<br> Year:  2015<br> Concentration of SO2:  0.872"," County:  Riverside<br> Year:  2015<br> Concentration of SO2:  0.872"," County:  Sacramento<br> Year:  2015<br> Concentration of SO2:  2.772"," County:  San Bernardino<br> Year:  2015<br> Concentration of SO2:  1.596"," County:  San Diego<br> Year:  2015<br> Concentration of SO2:  0.421"," County:  San Luis Obispo<br> Year:  2015<br> Concentration of SO2:  0.111"," County:  Santa Barbara<br> Year:  2015<br> Concentration of SO2:  0.673"," County:  Santa Clara<br> Year:  2015<br> Concentration of SO2:  0.861"," County:  Solano<br> Year:  2015<br> Concentration of SO2:  1.95"],[" County:  Alameda<br> Year:  2016<br> Concentration of SO2:  2.106"," County:  Contra Costa<br> Year:  2016<br> Concentration of SO2:  2.375"," County:  Fresno<br> Year:  2016<br> Concentration of SO2:  0.539"," County:  Humboldt<br> Year:  2016<br> Concentration of SO2:  0.158"," County:  Imperial<br> Year:  2016<br> Concentration of SO2:  1.489"," County:  Inyo<br> Year:  2016<br> Concentration of SO2:  0.022"," County:  Los Angeles<br> Year:  2016<br> Concentration of SO2:  2.75"," County:  Orange<br> Year:  2016<br> Concentration of SO2:  0.95"," County:  Riverside<br> Year:  2016<br> Concentration of SO2:  0.644"," County:  Sacramento<br> Year:  2016<br> Concentration of SO2:  2.854"," County:  San Bernardino<br> Year:  2016<br> Concentration of SO2:  1.502"," County:  San Diego<br> Year:  2016<br> Concentration of SO2:  0.28"," County:  San Luis Obispo<br> Year:  2016<br> Concentration of SO2:  0"," County:  Santa Barbara<br> Year:  2016<br> Concentration of SO2:  0.037"," County:  Santa Clara<br> Year:  2016<br> Concentration of SO2:  0.624"," County:  Solano<br> Year:  2016<br> Concentration of SO2:  1.665"],[" County:  Alameda<br> Year:  2017<br> Concentration of SO2:  1.594"," County:  Contra Costa<br> Year:  2017<br> Concentration of SO2:  2.287"," County:  Fresno<br> Year:  2017<br> Concentration of SO2:  0.728"," County:  Humboldt<br> Year:  2017<br> Concentration of SO2:  0.13"," County:  Imperial<br> Year:  2017<br> Concentration of SO2:  1.522"," County:  Inyo<br> Year:  2017<br> Concentration of SO2:  NA"," County:  Los Angeles<br> Year:  2017<br> Concentration of SO2:  2.822"," County:  Orange<br> Year:  2017<br> Concentration of SO2:  NA"," County:  Riverside<br> Year:  2017<br> Concentration of SO2:  1"," County:  Sacramento<br> Year:  2017<br> Concentration of SO2:  0.338"," County:  San Bernardino<br> Year:  2017<br> Concentration of SO2:  1.621"," County:  San Diego<br> Year:  2017<br> Concentration of SO2:  0.389"," County:  San Luis Obispo<br> Year:  2017<br> Concentration of SO2:  0"," County:  Santa Barbara<br> Year:  2017<br> Concentration of SO2:  0.481"," County:  Santa Clara<br> Year:  2017<br> Concentration of SO2:  0.65"," County:  Solano<br> Year:  2017<br> Concentration of SO2:  1.012"],[" County:  Alameda<br> Year:  2018<br> Concentration of SO2:  3.383"," County:  Contra Costa<br> Year:  2018<br> Concentration of SO2:  3.348"," County:  Fresno<br> Year:  2018<br> Concentration of SO2:  0.656"," County:  Humboldt<br> Year:  2018<br> Concentration of SO2:  0.3"," County:  Imperial<br> Year:  2018<br> Concentration of SO2:  1.394"," County:  Inyo<br> Year:  2018<br> Concentration of SO2:  0.1"," County:  Los Angeles<br> Year:  2018<br> Concentration of SO2:  1.963"," County:  Orange<br> Year:  2018<br> Concentration of SO2:  NA"," County:  Riverside<br> Year:  2018<br> Concentration of SO2:  1.054"," County:  Sacramento<br> Year:  2018<br> Concentration of SO2:  1.135"," County:  San Bernardino<br> Year:  2018<br> Concentration of SO2:  1.317"," County:  San Diego<br> Year:  2018<br> Concentration of SO2:  0.276"," County:  San Luis Obispo<br> Year:  2018<br> Concentration of SO2:  0.278"," County:  Santa Barbara<br> Year:  2018<br> Concentration of SO2:  0.607"," County:  Santa Clara<br> Year:  2018<br> Concentration of SO2:  1.4"," County:  Solano<br> Year:  2018<br> Concentration of SO2:  2.022"]],"type":"heatmap","xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+<div id="the-multiple-of-the-change-in-concentration-of-so2-between-2018-and-previous-years" class="section level1">
+<h1>3. The multiple of the change in concentration of SO2 between 2018 and previous years</h1>
+<p>The map below displays how many times the concentration of SO2 of each county in 2018 is higher than that in previous years. The bigger the size of the circle, the bigger the times.</p>
+<div id="htmlwidget-a256a18e94f8f4c49d93" style="width:700px;height:415.296px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-a256a18e94f8f4c49d93">{"x":{"visdat":{"571c697a5324":["function () ","plotlyVisDat"]},"cur_data":"571c697a5324","attrs":{"571c697a5324":{"lat":{},"lon":{},"mode":"markers","marker":{"mode":"markers","color":{},"showscale":true,"size":{}},"hoverinfo":"text","text":{},"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"scattermapbox"}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"title":"Times of change in concentration of SO2 between 2018 and previous years","mapbox":{"style":"open-street-map","zoom":4,"center":{"lon":-120,"lat":37}},"hovermode":"closest","showlegend":false},"source":"A","config":{"showSendToCloud":false},"data":[{"lat":[37.814781,37.9866794169811,36.78538,40.7564733968515,32.67618,33.9657745496875,33.9995800008751,38.6137790009202,34.8050627088231,32.8008726872751,35.02083,34.5551978431894,37.3432821632653,38.102507],"lon":[-122.282347,-122.129254026415,-119.77321,-124.186721132075,-115.48307,-118.300040676692,-117.41601,-121.368014,-117.395767509434,-116.953012963855,-120.56388,-120.247596243902,-121.925221663265,-122.237976],"mode":"markers","marker":{"color":[1.72174535050072,1.36702494972108,1.12673611111111,0.753554502369668,0.71919770773639,0.886649937422564,1.15807269653423,0.674946197991392,0.903910903910904,0.840551605257488,1.5625,1.09386840111139,1.88203017832647,1.18872939925571],"mode":"markers","showscale":true,"size":[51.6523605150215,41.0107484916324,33.8020833333333,22.60663507109,21.5759312320917,26.5994981226769,34.7421808960271,20.2483859397417,27.1173271173271,25.2165481577246,46.875,32.8160520333417,56.4609053497942,35.6618819776714],"line":{"color":"rgba(31,119,180,1)"}},"hoverinfo":["text","text","text","text","text","text","text","text","text","text","text","text","text","text"],"text":["Alameda:<br> The concentration of SO2 in 2018 is 1.72 times of that in previous years","Contra Costa:<br> The concentration of SO2 in 2018 is 1.37 times of that in previous years","Fresno:<br> The concentration of SO2 in 2018 is 1.13 times of that in previous years","Humboldt:<br> The concentration of SO2 in 2018 is 0.75 times of that in previous years","Imperial:<br> The concentration of SO2 in 2018 is 0.72 times of that in previous years","Los Angeles:<br> The concentration of SO2 in 2018 is 0.89 times of that in previous years","Riverside:<br> The concentration of SO2 in 2018 is 1.16 times of that in previous years","Sacramento:<br> The concentration of SO2 in 2018 is 0.67 times of that in previous years","San Bernardino:<br> The concentration of SO2 in 2018 is 0.9 times of that in previous years","San Diego:<br> The concentration of SO2 in 2018 is 0.84 times of that in previous years","San Luis Obispo:<br> The concentration of SO2 in 2018 is 1.56 times of that in previous years","Santa Barbara:<br> The concentration of SO2 in 2018 is 1.09 times of that in previous years","Santa Clara:<br> The concentration of SO2 in 2018 is 1.88 times of that in previous years","Solano:<br> The concentration of SO2 in 2018 is 1.19 times of that in previous years"],"type":"scattermapbox","line":{"color":"rgba(31,119,180,1)"},"frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+<div id="relationship-between-the-distance-to-the-center-of-the-fire-and-the-multiple-of-the-change-in-concentration-of-so2" class="section level1">
+<h1>4. Relationship between the distance to the center of the fire and the multiple of the change in concentration of SO2</h1>
+<p>The figure below displays how many times the concentration of SO2 of each county in 2018 is higher than that in previous years. The bigger the size of the circle, the bigger the times. The figure also shows how far the county is from the center of the fire. We can see that in general the closer the county is to the center of the fire, the higher the concentration of SO2.</p>
+<div id="htmlwidget-3643ce3bbb8793c5eb2d" style="width:700px;height:415.296px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-3643ce3bbb8793c5eb2d">{"x":{"visdat":{"571c11f7885":["function () ","plotlyVisDat"]},"cur_data":"571c11f7885","attrs":{"571c11f7885":{"x":{},"y":{},"mode":"markers","marker":{"sizemode":"diameter","opacity":0.5},"hoverinfo":"text","text":{},"color":{},"size":{},"alpha_stroke":1,"sizes":[10,70],"spans":[1,20],"type":"scatter"}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"title":"Times of change in concentration of SO2 between 2018 and previous years","yaxis":{"domain":[0,1],"automargin":true,"title":"Times"},"xaxis":{"domain":[0,1],"automargin":true,"title":"Distance"},"hovermode":"closest","showlegend":true},"source":"A","config":{"showSendToCloud":false},"data":[{"x":[234.195725265407],"y":[1.72174535050072],"mode":"markers","marker":{"color":"rgba(102,194,165,1)","size":[62.0327915652763],"sizemode":"diameter","opacity":0.5,"line":{"color":"rgba(102,194,165,1)"}},"hoverinfo":"text","text":"Alameda:<br> Distance from the center of the fire: 234.2 KM<br> The concentration of SO2 in 2018 is 1.72 times of that in previous years","type":"scatter","name":"Alameda","textfont":{"color":"rgba(102,194,165,1)","size":62.0327915652763},"error_y":{"color":"rgba(102,194,165,1)","width":62.0327915652763},"error_x":{"color":"rgba(102,194,165,1)","width":62.0327915652763},"line":{"color":"rgba(102,194,165,1)","width":62.0327915652763},"xaxis":"x","yaxis":"y","frame":null},{"x":[211.784768636276],"y":[1.36702494972108],"mode":"markers","marker":{"color":"rgba(199,169,129,1)","size":[44.4008584160434],"sizemode":"diameter","opacity":0.5,"line":{"color":"rgba(199,169,129,1)"}},"hoverinfo":"text","text":"Contra Costa:<br> Distance from the center of the fire: 211.78 KM<br> The concentration of SO2 in 2018 is 1.37 times of that in previous years","type":"scatter","name":"Contra Costa","textfont":{"color":"rgba(199,169,129,1)","size":44.4008584160434},"error_y":{"color":"rgba(199,169,129,1)","width":44.4008584160434},"error_x":{"color":"rgba(199,169,129,1)","width":44.4008584160434},"line":{"color":"rgba(199,169,129,1)","width":44.4008584160434},"xaxis":"x","yaxis":"y","frame":null},{"x":[367.648784231437],"y":[1.12673611111111],"mode":"markers","marker":{"color":"rgba(246,143,106,1)","size":[32.4569253082608],"sizemode":"diameter","opacity":0.5,"line":{"color":"rgba(246,143,106,1)"}},"hoverinfo":"text","text":"Fresno:<br> Distance from the center of the fire: 367.65 KM<br> The concentration of SO2 in 2018 is 1.13 times of that in previous years","type":"scatter","name":"Fresno","textfont":{"color":"rgba(246,143,106,1)","size":32.4569253082608},"error_y":{"color":"rgba(246,143,106,1)","width":32.4569253082608},"error_x":{"color":"rgba(246,143,106,1)","width":32.4569253082608},"line":{"color":"rgba(246,143,106,1)","width":32.4569253082608},"xaxis":"x","yaxis":"y","frame":null},{"x":[268.821044253031],"y":[0.753554502369668],"mode":"markers","marker":{"color":"rgba(195,154,163,1)","size":[13.9073488999393],"sizemode":"diameter","opacity":0.5,"line":{"color":"rgba(195,154,163,1)"}},"hoverinfo":"text","text":"Humboldt:<br> Distance from the center of the fire: 268.82 KM<br> The concentration of SO2 in 2018 is 0.75 times of that in previous years","type":"scatter","name":"Humboldt","textfont":{"color":"rgba(195,154,163,1)","size":13.9073488999393},"error_y":{"color":"rgba(195,154,163,1)","width":13.9073488999393},"error_x":{"color":"rgba(195,154,163,1)","width":13.9073488999393},"line":{"color":"rgba(195,154,163,1)","width":13.9073488999393},"xaxis":"x","yaxis":"y","frame":null},{"x":[956.160164889657],"y":[0.71919770773639],"mode":"markers","marker":{"color":"rgba(157,157,202,1)","size":[12.199590606747],"sizemode":"diameter","opacity":0.5,"line":{"color":"rgba(157,157,202,1)"}},"hoverinfo":"text","text":"Imperial:<br> Distance from the center of the fire: 956.16 KM<br> The concentration of SO2 in 2018 is 0.72 times of that in previous years","type":"scatter","name":"Imperial","textfont":{"color":"rgba(157,157,202,1)","size":12.199590606747},"error_y":{"color":"rgba(157,157,202,1)","width":12.199590606747},"error_x":{"color":"rgba(157,157,202,1)","width":12.199590606747},"line":{"color":"rgba(157,157,202,1)","width":12.199590606747},"xaxis":"x","yaxis":"y","frame":null},{"x":[707.518819313687],"y":[0.886649937422564],"mode":"markers","marker":{"color":"rgba(206,146,197,1)","size":[20.5230659778488],"sizemode":"diameter","opacity":0.5,"line":{"color":"rgba(206,146,197,1)"}},"hoverinfo":"text","text":"Los Angeles:<br> Distance from the center of the fire: 707.52 KM<br> The concentration of SO2 in 2018 is 0.89 times of that in previous years","type":"scatter","name":"Los Angeles","textfont":{"color":"rgba(206,146,197,1)","size":20.5230659778488},"error_y":{"color":"rgba(206,146,197,1)","width":20.5230659778488},"error_x":{"color":"rgba(206,146,197,1)","width":20.5230659778488},"line":{"color":"rgba(206,146,197,1)","width":20.5230659778488},"xaxis":"x","yaxis":"y","frame":null},{"x":[739.585714327923],"y":[1.15807269653423],"mode":"markers","marker":{"color":"rgba(220,159,172,1)","size":[34.0145593718539],"sizemode":"diameter","opacity":0.5,"line":{"color":"rgba(220,159,172,1)"}},"hoverinfo":"text","text":"Riverside:<br> Distance from the center of the fire: 739.59 KM<br> The concentration of SO2 in 2018 is 1.16 times of that in previous years","type":"scatter","name":"Riverside","textfont":{"color":"rgba(220,159,172,1)","size":34.0145593718539},"error_y":{"color":"rgba(220,159,172,1)","width":34.0145593718539},"error_x":{"color":"rgba(220,159,172,1)","width":34.0145593718539},"line":{"color":"rgba(220,159,172,1)","width":34.0145593718539},"xaxis":"x","yaxis":"y","frame":null},{"x":[132.957369009078],"y":[0.674946197991392],"mode":"markers","marker":{"color":"rgba(186,200,114,1)","size":[10],"sizemode":"diameter","opacity":0.5,"line":{"color":"rgba(186,200,114,1)"}},"hoverinfo":"text","text":"Sacramento:<br> Distance from the center of the fire: 132.96 KM<br> The concentration of SO2 in 2018 is 0.67 times of that in previous years","type":"scatter","name":"Sacramento","textfont":{"color":"rgba(186,200,114,1)","size":10},"error_y":{"color":"rgba(186,200,114,1)","width":10},"error_x":{"color":"rgba(186,200,114,1)","width":10},"line":{"color":"rgba(186,200,114,1)","width":10},"xaxis":"x","yaxis":"y","frame":null},{"x":[664.054276232358],"y":[0.903910903910904],"mode":"markers","marker":{"color":"rgba(196,217,74,1)","size":[21.3810493544593],"sizemode":"diameter","opacity":0.5,"line":{"color":"rgba(196,217,74,1)"}},"hoverinfo":"text","text":"San Bernardino:<br> Distance from the center of the fire: 664.05 KM<br> The concentration of SO2 in 2018 is 0.9 times of that in previous years","type":"scatter","name":"San Bernardino","textfont":{"color":"rgba(196,217,74,1)","size":21.3810493544593},"error_y":{"color":"rgba(196,217,74,1)","width":21.3810493544593},"error_x":{"color":"rgba(196,217,74,1)","width":21.3810493544593},"line":{"color":"rgba(196,217,74,1)","width":21.3810493544593},"xaxis":"x","yaxis":"y","frame":null},{"x":[876.486342411793],"y":[0.840551605257488],"mode":"markers","marker":{"color":"rgba(242,217,54,1)","size":[18.231676169878],"sizemode":"diameter","opacity":0.5,"line":{"color":"rgba(242,217,54,1)"}},"hoverinfo":"text","text":"San Diego:<br> Distance from the center of the fire: 876.49 KM<br> The concentration of SO2 in 2018 is 0.84 times of that in previous years","type":"scatter","name":"San Diego","textfont":{"color":"rgba(242,217,54,1)","size":18.231676169878},"error_y":{"color":"rgba(242,217,54,1)","width":18.231676169878},"error_x":{"color":"rgba(242,217,54,1)","width":18.231676169878},"line":{"color":"rgba(242,217,54,1)","width":18.231676169878},"xaxis":"x","yaxis":"y","frame":null},{"x":[537.407840519197],"y":[1.5625],"mode":"markers","marker":{"color":"rgba(246,209,94,1)","size":[54.1172519792149],"sizemode":"diameter","opacity":0.5,"line":{"color":"rgba(246,209,94,1)"}},"hoverinfo":"text","text":"San Luis Obispo:<br> Distance from the center of the fire: 537.41 KM<br> The concentration of SO2 in 2018 is 1.56 times of that in previous years","type":"scatter","name":"San Luis Obispo","textfont":{"color":"rgba(246,209,94,1)","size":54.1172519792149},"error_y":{"color":"rgba(246,209,94,1)","width":54.1172519792149},"error_x":{"color":"rgba(246,209,94,1)","width":54.1172519792149},"line":{"color":"rgba(246,209,94,1)","width":54.1172519792149},"xaxis":"x","yaxis":"y","frame":null},{"x":[593.058428291402],"y":[1.09386840111139],"mode":"markers","marker":{"color":"rgba(231,198,142,1)","size":[30.8231842992585],"sizemode":"diameter","opacity":0.5,"line":{"color":"rgba(231,198,142,1)"}},"hoverinfo":"text","text":"Santa Barbara:<br> Distance from the center of the fire: 593.06 KM<br> The concentration of SO2 in 2018 is 1.09 times of that in previous years","type":"scatter","name":"Santa Barbara","textfont":{"color":"rgba(231,198,142,1)","size":30.8231842992585},"error_y":{"color":"rgba(231,198,142,1)","width":30.8231842992585},"error_x":{"color":"rgba(231,198,142,1)","width":30.8231842992585},"line":{"color":"rgba(231,198,142,1)","width":30.8231842992585},"xaxis":"x","yaxis":"y","frame":null},{"x":[277.33628182168],"y":[1.88203017832647],"mode":"markers","marker":{"color":"rgba(207,188,163,1)","size":[70],"sizemode":"diameter","opacity":0.5,"line":{"color":"rgba(207,188,163,1)"}},"hoverinfo":"text","text":"Santa Clara:<br> Distance from the center of the fire: 277.34 KM<br> The concentration of SO2 in 2018 is 1.88 times of that in previous years","type":"scatter","name":"Santa Clara","textfont":{"color":"rgba(207,188,163,1)","size":70},"error_y":{"color":"rgba(207,188,163,1)","width":70},"error_x":{"color":"rgba(207,188,163,1)","width":70},"line":{"color":"rgba(207,188,163,1)","width":70},"xaxis":"x","yaxis":"y","frame":null},{"x":[202.799774556977],"y":[1.18872939925571],"mode":"markers","marker":{"color":"rgba(179,179,179,1)","size":[35.5383988008042],"sizemode":"diameter","opacity":0.5,"line":{"color":"rgba(179,179,179,1)"}},"hoverinfo":"text","text":"Solano:<br> Distance from the center of the fire: 202.8 KM<br> The concentration of SO2 in 2018 is 1.19 times of that in previous years","type":"scatter","name":"Solano","textfont":{"color":"rgba(179,179,179,1)","size":35.5383988008042},"error_y":{"color":"rgba(179,179,179,1)","width":35.5383988008042},"error_x":{"color":"rgba(179,179,179,1)","width":35.5383988008042},"line":{"color":"rgba(179,179,179,1)","width":35.5383988008042},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+<div id="the-multiple-of-the-actual-concentration-in-2018-to-the-predicted-concentration-in-2018-in-each-county.-and-its-relationship-with-the-distance-to-the-center-of-the-fire" class="section level1">
+<h1>5. The multiple of the actual concentration in 2018 to the predicted concentration in 2018 in each county., and its relationship with the distance to the center of the fire</h1>
+<p>I use the concentration data in previous years(2013-2017) in each counties to build linear models and predict the estimated concentration in 2018 when there was no Camp Fire in each counties. Then I calculated the multiple of the actual concentration in 2018 to the predicted concentration in 2018 in each county.</p>
+<p>The figure below displays the relationship between the multiple and the distance from the county to the center of the fire. The bigger the size of the circle, the bigger the multiple.</p>
+<div id="htmlwidget-6cd2afb73daf6318f8aa" style="width:700px;height:415.296px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-6cd2afb73daf6318f8aa">{"x":{"visdat":{"571c3104b11":["function () ","plotlyVisDat"]},"cur_data":"571c3104b11","attrs":{"571c3104b11":{"x":{},"y":{},"mode":"markers","marker":{"sizemode":"diameter","opacity":0.5},"hoverinfo":"text","text":{},"color":{},"size":{},"alpha_stroke":1,"sizes":[20,70],"spans":[1,20],"type":"scatter"}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"title":"Times of difference between actual concentration of SO2 and predicted concentration of SO2","yaxis":{"domain":[0,1],"automargin":true,"title":"Times"},"xaxis":{"domain":[0,1],"automargin":true,"title":"Distance"},"hovermode":"closest","showlegend":true},"source":"A","config":{"showSendToCloud":false},"data":[{"x":[234.195725265407],"y":[2.0788060870286],"mode":"markers","marker":{"color":"rgba(102,194,165,1)","size":[20.6298495713491],"sizemode":"diameter","opacity":0.5,"line":{"color":"rgba(102,194,165,1)"}},"hoverinfo":"text","text":"Alameda:<br> Distance from the center of the fire: 234.2 KM<br> The actual concentration of SO2 in 2018 is 2.08 times of predicted concentration","type":"scatter","name":"Alameda","textfont":{"color":"rgba(102,194,165,1)","size":20.6298495713491},"error_y":{"color":"rgba(102,194,165,1)","width":20.6298495713491},"error_x":{"color":"rgba(102,194,165,1)","width":20.6298495713491},"line":{"color":"rgba(102,194,165,1)","width":20.6298495713491},"xaxis":"x","yaxis":"y","frame":null},{"x":[211.705325062713],"y":[1.59554580893314],"mode":"markers","marker":{"color":"rgba(199,169,129,1)","size":[20.4250345112263],"sizemode":"diameter","opacity":0.5,"line":{"color":"rgba(199,169,129,1)"}},"hoverinfo":"text","text":"Contra Costa:<br> Distance from the center of the fire: 211.71 KM<br> The actual concentration of SO2 in 2018 is 1.6 times of predicted concentration","type":"scatter","name":"Contra Costa","textfont":{"color":"rgba(199,169,129,1)","size":20.4250345112263},"error_y":{"color":"rgba(199,169,129,1)","width":20.4250345112263},"error_x":{"color":"rgba(199,169,129,1)","width":20.4250345112263},"line":{"color":"rgba(199,169,129,1)","width":20.4250345112263},"xaxis":"x","yaxis":"y","frame":null},{"x":[367.648784231437],"y":[1.08693149107656],"mode":"markers","marker":{"color":"rgba(246,143,106,1)","size":[20.2094739182853],"sizemode":"diameter","opacity":0.5,"line":{"color":"rgba(246,143,106,1)"}},"hoverinfo":"text","text":"Fresno:<br> Distance from the center of the fire: 367.65 KM<br> The actual concentration of SO2 in 2018 is 1.09 times of predicted concentration","type":"scatter","name":"Fresno","textfont":{"color":"rgba(246,143,106,1)","size":20.2094739182853},"error_y":{"color":"rgba(246,143,106,1)","width":20.2094739182853},"error_x":{"color":"rgba(246,143,106,1)","width":20.2094739182853},"line":{"color":"rgba(246,143,106,1)","width":20.2094739182853},"xaxis":"x","yaxis":"y","frame":null},{"x":[268.678907371081],"y":[2.28890708540168],"mode":"markers","marker":{"color":"rgba(195,154,163,1)","size":[20.7188944412962],"sizemode":"diameter","opacity":0.5,"line":{"color":"rgba(195,154,163,1)"}},"hoverinfo":"text","text":"Humboldt:<br> Distance from the center of the fire: 268.68 KM<br> The actual concentration of SO2 in 2018 is 2.29 times of predicted concentration","type":"scatter","name":"Humboldt","textfont":{"color":"rgba(195,154,163,1)","size":20.7188944412962},"error_y":{"color":"rgba(195,154,163,1)","width":20.7188944412962},"error_x":{"color":"rgba(195,154,163,1)","width":20.7188944412962},"line":{"color":"rgba(195,154,163,1)","width":20.7188944412962},"xaxis":"x","yaxis":"y","frame":null},{"x":[956.160164889657],"y":[0.971362229102217],"mode":"markers","marker":{"color":"rgba(157,157,202,1)","size":[20.160493428035],"sizemode":"diameter","opacity":0.5,"line":{"color":"rgba(157,157,202,1)"}},"hoverinfo":"text","text":"Imperial:<br> Distance from the center of the fire: 956.16 KM<br> The actual concentration of SO2 in 2018 is 0.97 times of predicted concentration","type":"scatter","name":"Imperial","textfont":{"color":"rgba(157,157,202,1)","size":20.160493428035},"error_y":{"color":"rgba(157,157,202,1)","width":20.160493428035},"error_x":{"color":"rgba(157,157,202,1)","width":20.160493428035},"line":{"color":"rgba(157,157,202,1)","width":20.160493428035},"xaxis":"x","yaxis":"y","frame":null},{"x":[710.273510569821],"y":[0.592678656623831],"mode":"markers","marker":{"color":"rgba(206,146,197,1)","size":[20],"sizemode":"diameter","opacity":0.5,"line":{"color":"rgba(206,146,197,1)"}},"hoverinfo":"text","text":"Los Angeles:<br> Distance from the center of the fire: 710.27 KM<br> The actual concentration of SO2 in 2018 is 0.59 times of predicted concentration","type":"scatter","name":"Los Angeles","textfont":{"color":"rgba(206,146,197,1)","size":20},"error_y":{"color":"rgba(206,146,197,1)","width":20},"error_x":{"color":"rgba(206,146,197,1)","width":20},"line":{"color":"rgba(206,146,197,1)","width":20},"xaxis":"x","yaxis":"y","frame":null},{"x":[739.585714327923],"y":[1.38663967611338],"mode":"markers","marker":{"color":"rgba(220,159,172,1)","size":[20.3364960484292],"sizemode":"diameter","opacity":0.5,"line":{"color":"rgba(220,159,172,1)"}},"hoverinfo":"text","text":"Riverside:<br> Distance from the center of the fire: 739.59 KM<br> The actual concentration of SO2 in 2018 is 1.39 times of predicted concentration","type":"scatter","name":"Riverside","textfont":{"color":"rgba(220,159,172,1)","size":20.3364960484292},"error_y":{"color":"rgba(220,159,172,1)","width":20.3364960484292},"error_x":{"color":"rgba(220,159,172,1)","width":20.3364960484292},"line":{"color":"rgba(220,159,172,1)","width":20.3364960484292},"xaxis":"x","yaxis":"y","frame":null},{"x":[132.957369009078],"y":[0.713101475088355],"mode":"markers","marker":{"color":"rgba(186,200,114,1)","size":[20.0510375214391],"sizemode":"diameter","opacity":0.5,"line":{"color":"rgba(186,200,114,1)"}},"hoverinfo":"text","text":"Sacramento:<br> Distance from the center of the fire: 132.96 KM<br> The actual concentration of SO2 in 2018 is 0.71 times of predicted concentration","type":"scatter","name":"Sacramento","textfont":{"color":"rgba(186,200,114,1)","size":20.0510375214391},"error_y":{"color":"rgba(186,200,114,1)","width":20.0510375214391},"error_x":{"color":"rgba(186,200,114,1)","width":20.0510375214391},"line":{"color":"rgba(186,200,114,1)","width":20.0510375214391},"xaxis":"x","yaxis":"y","frame":null},{"x":[666.651941721248],"y":[0.764306650442419],"mode":"markers","marker":{"color":"rgba(196,217,74,1)","size":[20.0727392659112],"sizemode":"diameter","opacity":0.5,"line":{"color":"rgba(196,217,74,1)"}},"hoverinfo":"text","text":"San Bernardino:<br> Distance from the center of the fire: 666.65 KM<br> The actual concentration of SO2 in 2018 is 0.76 times of predicted concentration","type":"scatter","name":"San Bernardino","textfont":{"color":"rgba(196,217,74,1)","size":20.0727392659112},"error_y":{"color":"rgba(196,217,74,1)","width":20.0727392659112},"error_x":{"color":"rgba(196,217,74,1)","width":20.0727392659112},"line":{"color":"rgba(196,217,74,1)","width":20.0727392659112},"xaxis":"x","yaxis":"y","frame":null},{"x":[877.961269899853],"y":[0.696288109487231],"mode":"markers","marker":{"color":"rgba(242,217,54,1)","size":[20.0439116916481],"sizemode":"diameter","opacity":0.5,"line":{"color":"rgba(242,217,54,1)"}},"hoverinfo":"text","text":"San Diego:<br> Distance from the center of the fire: 877.96 KM<br> The actual concentration of SO2 in 2018 is 0.7 times of predicted concentration","type":"scatter","name":"San Diego","textfont":{"color":"rgba(242,217,54,1)","size":20.0439116916481},"error_y":{"color":"rgba(242,217,54,1)","width":20.0439116916481},"error_x":{"color":"rgba(242,217,54,1)","width":20.0439116916481},"line":{"color":"rgba(242,217,54,1)","width":20.0439116916481},"xaxis":"x","yaxis":"y","frame":null},{"x":[537.407840519197],"y":[118.567469623109],"mode":"markers","marker":{"color":"rgba(246,209,94,1)","size":[70],"sizemode":"diameter","opacity":0.5,"line":{"color":"rgba(246,209,94,1)"}},"hoverinfo":"text","text":"San Luis Obispo:<br> Distance from the center of the fire: 537.41 KM<br> The actual concentration of SO2 in 2018 is 118.57 times of predicted concentration","type":"scatter","name":"San Luis Obispo","textfont":{"color":"rgba(246,209,94,1)","size":70},"error_y":{"color":"rgba(246,209,94,1)","width":70},"error_x":{"color":"rgba(246,209,94,1)","width":70},"line":{"color":"rgba(246,209,94,1)","width":70},"xaxis":"x","yaxis":"y","frame":null},{"x":[593.395187659817],"y":[59.2837348115547],"mode":"markers","marker":{"color":"rgba(231,198,142,1)","size":[44.8744056565457],"sizemode":"diameter","opacity":0.5,"line":{"color":"rgba(231,198,142,1)"}},"hoverinfo":"text","text":"Santa Barbara:<br> Distance from the center of the fire: 593.4 KM<br> The actual concentration of SO2 in 2018 is 59.28 times of predicted concentration","type":"scatter","name":"Santa Barbara","textfont":{"color":"rgba(231,198,142,1)","size":44.8744056565457},"error_y":{"color":"rgba(231,198,142,1)","width":44.8744056565457},"error_x":{"color":"rgba(231,198,142,1)","width":44.8744056565457},"line":{"color":"rgba(231,198,142,1)","width":44.8744056565457},"xaxis":"x","yaxis":"y","frame":null},{"x":[276.344804529698],"y":[2.29956628161645],"mode":"markers","marker":{"color":"rgba(207,188,163,1)","size":[20.7234120149776],"sizemode":"diameter","opacity":0.5,"line":{"color":"rgba(207,188,163,1)"}},"hoverinfo":"text","text":"Santa Clara:<br> Distance from the center of the fire: 276.34 KM<br> The actual concentration of SO2 in 2018 is 2.3 times of predicted concentration","type":"scatter","name":"Santa Clara","textfont":{"color":"rgba(207,188,163,1)","size":20.7234120149776},"error_y":{"color":"rgba(207,188,163,1)","width":20.7234120149776},"error_x":{"color":"rgba(207,188,163,1)","width":20.7234120149776},"line":{"color":"rgba(207,188,163,1)","width":20.7234120149776},"xaxis":"x","yaxis":"y","frame":null},{"x":[202.799774556977],"y":[1.74064697609015],"mode":"markers","marker":{"color":"rgba(179,179,179,1)","size":[20.4865311945297],"sizemode":"diameter","opacity":0.5,"line":{"color":"rgba(179,179,179,1)"}},"hoverinfo":"text","text":"Solano:<br> Distance from the center of the fire: 202.8 KM<br> The actual concentration of SO2 in 2018 is 1.74 times of predicted concentration","type":"scatter","name":"Solano","textfont":{"color":"rgba(179,179,179,1)","size":20.4865311945297},"error_y":{"color":"rgba(179,179,179,1)","width":20.4865311945297},"error_x":{"color":"rgba(179,179,179,1)","width":20.4865311945297},"line":{"color":"rgba(179,179,179,1)","width":20.4865311945297},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+
+<p>Copyright &copy; 2020, Mingzhi Ye.</p>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

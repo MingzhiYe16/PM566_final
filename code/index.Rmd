@@ -1,0 +1,284 @@
+---
+title: "PM566 Final Project"
+author: "Mingzhi Ye"
+output: 
+    html_document:
+        toc: TRUE
+        toc_float: TRUE
+---
+
+<br>
+
+Welcome my PM566 assignment5 website. There are some interactive figures displaying how did the concentration of SO2 in CA change because of the Camp Fire in 2018.
+
+<br>
+
+```{r setup, message=FALSE, echo=FALSE, warning=FALSE}
+
+library(data.table)
+library(tidyverse)
+library(dplyr)
+library(plotly)
+library(DT)
+library(knitr)
+library(listviewer)
+library(gapminder)
+# Initialize code chunk options
+opts_chunk$set(
+  warning = FALSE,
+  message = FALSE,
+  eval=TRUE,
+  echo = FALSE,
+  cache = FALSE,
+  fig.width = 7, 
+  fig.align = 'center',
+  fig.asp = 0.618,
+  out.width = "700px",
+  class.source = "code-r")
+```
+
+```{css, echo = FALSE}
+.code-r { /* Code block */
+  font-size: 15px;
+}
+
+.code-r-small { /* Code block */
+  font-size: 10px;
+}
+```
+
+<br>
+
+
+
+
+
+```{r load-data}
+source("pollutiondata.R")
+```
+
+<br>
+
+# 1. Average concentration of SO2 in 2018 and previous years 
+
+The figures below displays how did the concentration of SO2 in CA change from 2013 to 2018, the x axis represents the date from 11/8 to 11/25, when the Camp Fire lasted in 2018
+The first figure displays the difference between the concentration in 2018 and the average concentration in previous years, and the second figure displays concentration in each year from 2013 to 2018
+
+```{r plot1, class.source="code-r-small"}
+data_s1 <- data_s %>%
+  group_by(date,year) %>%
+  summarise(concentration:=mean(concentration,na.rm=TRUE))
+data_s1<-as.data.frame(data_s1)
+figure1<-data_s1 %>% plot_ly(x = ~date, y = ~concentration, color=~year, type = "scatter", mode = "lines",
+        hoverinfo = 'text',
+        text = ~paste(paste("date: ", date, sep=""),
+                      paste("Concentration of SO2: ", concentration, sep=""),
+                      paste("Year: ", year, sep=""), sep = "<br>")) %>%
+  layout(title = "Average concentration of SO2 in 2018 and previous years",
+                  yaxis = list(title = "Average concentration of SO2"), xaxis = list(title = "date"),
+         hovermode = "compare")
+
+
+data_s_date<-data_s_ori %>%
+  group_by(date,year) %>%
+   summarise(concentration:=mean(concentration,na.rm=TRUE))
+data_s_date<-as.data.frame(data_s_date)
+gg <- ggplot(data_s_date, aes(date, concentration)) +
+  geom_point(aes(frame = year,size=10))+
+  labs(title="Concentration of SO2 in CA from 2013 to 2018", y="Concentration of SO2",x="Date")
+figure2 <-ggplotly(gg)
+
+```
+
+
+
+##{.tabset}
+
+
+
+### Concentration in 2018 and average concentration in previous years
+
+```{r p1_1}
+figure1
+```
+
+### Concentration in each year from 2013 to 2018
+
+```{r p1_2}
+figure2
+```
+
+## {-}
+
+# 2. Concentration of SO2 from 2013 to 2018 in each county
+
+The heatmap below displays how did the concentration of SO2 in different counties change from 2013 to 2018
+
+```{r}
+# There are three years that Inyo doesn't have any concentration data, which means the data of Inyo is not reliable, so I excluded it from analysis. When it comes to Orange county, there is no concentration data in 2018 when the wild fire happened, so I also excluded Orange from analysis
+data_s_ori1<-data_s_ori %>%
+  group_by(county,year) %>%
+  summarise(concentration=mean(concentration,na.rm=TRUE),
+            latitude=mean(latitude,na.rm=TRUE),
+            longitude=mean(longitude,na.rm=TRUE)) %>%
+  select(county, year, concentration)
+data_s_ori1<-as.data.frame(data_s_ori1)
+data_s_ori2 <- as.data.frame(pivot_wider(data_s_ori1, names_from = county, values_from = concentration))
+rownames(data_s_ori2) <- data_s_ori2$year
+data_s_ori2$year <- NULL
+data <- as.matrix(data_s_ori2)
+counties=unique(data_s_ori1$county)
+counties1=rep(counties,6)
+counties_f=paste(" County: ",counties1)
+year0=c("2013":"2018")
+year1=rep(year0,each=length(counties))
+year_f=paste(" Year: ",year1)
+concentration1=as.vector(t(data))
+concentration1=round(concentration1,3)
+concentration_f=paste(" Concentration of SO2: ",concentration1)
+conditions.text <- paste(counties_f,year_f,concentration_f,sep="<br>")
+conditions.text <- matrix(unlist(conditions.text), ncol = length(counties), byrow = TRUE)
+plot_ly(x=colnames(data), y=rownames(data),
+             z=~data,
+             type="heatmap",
+             showscale=T,
+        hoverinfo = 'text',
+          text = conditions.text) %>% 
+  layout(title = "The concentration of SO2 in different counties in CA from 2013 to 2018",
+                  yaxis = list(title = "Year"), xaxis = list(title = "County"),
+         hovermode = "compare")
+
+data_s<-data_s[county!="Inyo" & county!="Orange"]
+data_s_ori<-data_s_ori[county!="Inyo" & county!="Orange"]
+```
+
+
+# 3. The multiple of the change in concentration of SO2 between 2018 and previous years
+
+The map below displays how many times the concentration of SO2 of each county in 2018 is higher than that in previous years. The bigger the size of the circle, the bigger the times.
+
+```{r plot3, class.source="code-r-small"}
+data_s1<-data_s %>%
+  group_by(county,year) %>%
+  summarise(concentration=mean(concentration,na.rm=TRUE),
+            latitude=mean(latitude,na.rm=TRUE),
+            longitude=mean(longitude,na.rm=TRUE))
+data_s1<-data.table(data_s1)
+data_s2<-data_s1[year=="Previous years"]
+data_s3<-data_s1[year=="2018"]
+data_sx<-merge(x=data_s2,y=data_s3,
+           by.x="county", by.y="county",
+           all.x=TRUE,all.y=TRUE)
+data_sx[,times:=concentration.y/concentration.x]
+data_sx<-data_sx[,.(county,latitude.x,longitude.x,times)]
+
+shadeLimit <- 2
+
+fig1 <- data_sx %>%
+  plot_ly(
+    lat = ~latitude.x,
+    lon = ~longitude.x,
+    
+    mode   = 'markers',
+    marker = list(mode   = 'markers',
+                  color = ~times,
+                  
+                  showscale=T,
+                  size=~times*30
+                  ),
+    
+    type = 'scattermapbox',
+    hoverinfo = 'text',
+    text = ~paste( paste(county, ":", sep=""), paste(" The concentration of SO2 in 2018 is ", round(times,2)," times of that in previous years", sep=""),sep="<br>")
+    )
+
+fig1 <- fig1 %>%
+  layout(
+    
+    title = "Times of change in concentration of SO2 between 2018 and previous years",
+    mapbox = list(
+      style = 'open-street-map',
+      zoom =4,
+      center = list(lon = -120, lat = 37)))
+
+fig1
+
+```
+
+# 4. Relationship between the distance to the center of the fire and the multiple of the change in concentration of SO2
+
+The figure below displays how many times the concentration of SO2 of each county in 2018 is higher than that in previous years. The bigger the size of the circle, the bigger the times. The figure also shows how far the county is from the center of the fire. We can see that in general the closer the county is to the center of the fire, the higher the concentration of SO2.
+
+```{r}
+# One degree of longitude is around 90km in CA, one degree of latitude is around 111km in CA
+# The location of the center of the fire is 39.810278, -121.437222
+data_s1<-data_s %>%
+  group_by(county,year) %>%
+  summarise(concentration=mean(concentration,na.rm=TRUE),
+            latitude=mean(latitude,na.rm=TRUE),
+            longitude=mean(longitude,na.rm=TRUE))
+data_s1<-data.table(data_s1)
+data_s2<-data_s1[year=="Previous years"]
+data_s3<-data_s1[year=="2018"]
+data_sx<-merge(x=data_s2,y=data_s3,
+           by.x="county", by.y="county",
+           all.x=TRUE,all.y=TRUE)
+data_sx[,times:=concentration.y/concentration.x]
+data_sx[,distance:=sqrt(((latitude.x-39.810278)*111)^2+((longitude.x+121.437222)*90)^2)]
+data_sx %>% 
+  plot_ly(x = ~distance, y = ~times, 
+          type = 'scatter', mode = 'markers', color = ~county,
+          size = ~times, sizes = c(10, 70), marker = list(sizemode='diameter', opacity=0.5),
+          hoverinfo = 'text',
+          text = ~paste( paste(county, ":", sep=""), paste(" Distance from the center of the fire: ", round(distance,2)," KM", sep="") , paste(" The concentration of SO2 in 2018 is ", round(times,2)," times of that in previous years", sep=""), sep = "<br>")) %>% 
+  layout(title = "Times of change in concentration of SO2 between 2018 and previous years",
+                  yaxis = list(title = "Times"), xaxis = list(title = "Distance"))
+```
+
+# 5. The multiple of the actual concentration in 2018 to the predicted concentration in 2018 in each county., and its relationship with the distance to the center of the fire
+
+I use the concentration data in previous years(2013-2017) in each counties to build linear models and predict the estimated concentration in 2018 when there was no Camp Fire in each counties. Then I calculated the multiple of the actual concentration in 2018 to the predicted concentration in 2018 in each county. 
+
+The figure below displays the relationship between the multiple and the distance from the county to the center of the fire. The bigger the size of the circle, the bigger the multiple.
+
+```{r}
+data_s_ori1<-data_s_ori %>%
+  group_by(county,year) %>%
+  summarise(concentration=mean(concentration,na.rm=TRUE),
+            latitude=mean(latitude,na.rm=TRUE),
+            longitude=mean(longitude,na.rm=TRUE))
+data_s_ori1<-data.table(data_s_ori1)
+counties=unique(data_s_ori1$county)
+number_of_counties=length(counties)
+for (i in 1:number_of_counties) {
+  list_mid=data_s_ori1[data_s_ori1$county==counties[i] & year!= "2018"]
+  lm_mid<-lm(concentration~as.integer(year),data=list_mid)
+  predicted_concentration=as.numeric(lm_mid$coefficients[1]+lm_mid$coefficients[2]*2018)
+  if(i==1){
+    df_predicted=data.frame(county=counties[i],predicted_2018=predicted_concentration)
+  } else{
+      df_predicted_mid=data.frame(county=counties[i],predicted_2018=predicted_concentration)
+      df_predicted=rbind(df_predicted_mid,df_predicted)}
+}
+data_actual2018<-data_s_ori1[year=="2018"]
+data_actual2018<-data_actual2018[,actual_2018:=concentration]
+data_compare=merge(x=data_actual2018,y=df_predicted,
+           by.x="county", by.y="county",
+           all.x=TRUE,all.y=TRUE)
+
+data_compare[,times:=actual_2018/predicted_2018]
+data_compare[,distance:=sqrt(((latitude-39.810278)*111)^2+((longitude+121.437222)*90)^2)]
+max_times=max(data_compare$times)
+data_compare[times<0,times:=2*max_times]
+
+
+data_compare %>% 
+  plot_ly(x = ~distance, y = ~times, 
+          type = 'scatter', mode = 'markers', color = ~county,
+          size = ~times, sizes = c(20, 70), marker = list(sizemode='diameter', opacity=0.5),
+          hoverinfo = 'text',
+          text = ~paste( paste(county, ":", sep=""), paste(" Distance from the center of the fire: ", round(distance,2)," KM", sep="") , paste(" The actual concentration of SO2 in 2018 is ", round(times,2)," times of predicted concentration", sep=""), sep = "<br>")) %>% 
+  layout(title = "Times of difference between actual concentration of SO2 and predicted concentration of SO2",
+                  yaxis = list(title = "Times"), xaxis = list(title = "Distance"))
+```
+
